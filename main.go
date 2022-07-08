@@ -2,7 +2,9 @@ package main
 
 import (
 	"errors"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,6 +18,9 @@ type OrderStatus struct {
 var orders = []OrderStatus{
 	OrderStatus{OrderId: "123", Status: "In Transit", CustomerId: "321"},
 	OrderStatus{OrderId: "234", Status: "Delivered", CustomerId: "432"},
+	OrderStatus{OrderId: "345", Status: "Delivered", CustomerId: "543"},
+	OrderStatus{OrderId: "456", Status: "Preparing", CustomerId: "654"},
+	OrderStatus{OrderId: "567", Status: "Delivered", CustomerId: "765"},
 }
 
 func trackOrders(c *gin.Context) {
@@ -44,9 +49,13 @@ func getOrderById(id string) (*OrderStatus, error) {
 }
 
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
 	router := gin.Default()
 	router.GET("/orders", trackOrders)
 	router.GET("/orders/:id", OrderById)
-	router.Run("localhost:8080")
+	router.Run("localhost:" + port)
 
 }
