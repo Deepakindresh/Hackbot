@@ -56,6 +56,6 @@ func main() {
 	router := gin.Default()
 	router.GET("/orders", trackOrders)
 	router.GET("/orders/:id", OrderById)
-	router.Run("localhost:" + port)
+	router.Run(":" + port)
 
 }
