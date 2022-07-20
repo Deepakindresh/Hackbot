@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EXL Hackbot - HTML Demo</title> 
+    <!-- This styling is for the Web Chat demonstration purposes. It is recommended that style is moved to separate file for organization in larger projects -->
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 16px;
+            font-family: Segoe UI;
+            line-height: 20px;
+            color: #fff1e2;
+            display: table-cell;
+            padding: 13px 0px 0px 20px;
+        }
+
+        #heading {
+            background-color:  #a3080c;
+            height: 50px;
+        }
+
+        .main {
+            margin: 18px;
+            border-radius: 4px;
+        }
+
+        div[role="form"]{
+            background-color: white;
+        }
+
+        #webchat {
+            position: fixed;
+            height: calc(100% - 50px);
+            width: 100%;
+            top: 50px;
+            overflow: hidden;
+        }
+
+    </style>
+
+</head>
+<body>
+    <div>
+        <div id="heading">
+            <!-- Change the h1 text to change the bot name -->    
+            <h1>KFC Hackbot</h1>
+        </div>
+        <div id="webchat" role="main"></div>
+    </div>    
+
+  <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+
+  <script>
+        const styleOptions = {
+
+           // Add styleOptions to customize Web Chat canvas
+           botAvatarInitials: 'BT',
+           accent: '#00809d',
+           botAvatarBackgroundColor: "#FFFFFF",
+           botAvatarImage: 'https://cdn.iconscout.com/icon/free/png-256/kfc-2-226243.png',
+           userAvatarImage: 'https://cdn4.iconfinder.com/data/icons/alphabet-3/500/ABC_alphabet_letter_font_graphic_language_text_D-512.png',
+           hideUploadButton: true
+        };
+
+        // Add your BOT ID below 
+        var BOT_ID = "466369c7-4963-4a8a-82af-1716433ff342"; 
+        var theURL = "https://powerva.microsoft.com/api/botmanagement/v1/directline/directlinetoken?botId=" + BOT_ID;
+
+      fetch(theURL)
+            .then(response => response.json())
+            .then(conversationInfo => {
+                window.WebChat.renderWebChat(
+                    {
+                        directLine: window.WebChat.createDirectLine({
+                            token: conversationInfo.token,
+                        }),
+                        styleOptions
+                    },
+                    document.getElementById('webchat')
+                );
+            })
+            .catch(err => console.error("An error occurred: " + err));
+
+    </script>
+  </body>
+</html>
